@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+
+  console:
+    image: console-application
+    build:
+      context: .
+      dockerfile: Console/Dockerfile.dev
+    environment:
+      MongoDB__Host: mongo
+      Connection_String: mongodb://mongo:27017
+      Database: SampleDatabase
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
